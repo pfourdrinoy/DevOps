@@ -31,6 +31,7 @@ jobs:
           context: simple-api-student-main/simple-api-student-main
           # Note: tags has to be all lower-case
           tags:  ${{secrets.DOCKERHUB_USERNAME}}/tp-devops-simple-api:latest
+          push: ${{ github.ref == 'refs/heads/main' }}
 
       - name: Build image and push database
         uses: docker/build-push-action@v3
@@ -39,6 +40,7 @@ jobs:
           context: Bdd
           # Note: tags has to be all lower-case
           tags:  ${{secrets.DOCKERHUB_USERNAME}}/tp-devops-simple-db:latest
+          push: ${{ github.ref == 'refs/heads/main' }}
 
       - name: Build image and push httpd
         uses: docker/build-push-action@v3
@@ -47,6 +49,11 @@ jobs:
           context: Http
           # Note: tags has to be all lower-case
           tags:  ${{secrets.DOCKERHUB_USERNAME}}/tp-devops-simple-api:latest
+          push: ${{ github.ref == 'refs/heads/main' }}
+
+      - name: Login to DockerHub
+        run: docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.TOKEN_DOCKERHUB }}
+
 
       # - name: Login to Docker Hub
       #   run: echo "${{ secrets.TOKEN_DOCKERHUB}}" | docker login --username pfourdrinoy --password-stdin
