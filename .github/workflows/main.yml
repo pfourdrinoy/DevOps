@@ -21,6 +21,6 @@ jobs:
           distribution: 'adopt'  # specify the distribution here
 
       - name: Build and test with Maven
-        run: cd DevOps/simpleapi/simpleapi|
-          mvn clean verify
+        run:
+          mvn clean verify --file DevOps/simpleapi/simpleapi
           
