@@ -23,4 +23,4 @@ jobs:
       - name: Build and test with Maven
         run: |
           cd api/simple-api-student-main
-          mvn clean verify
+          mvn clean verify --file ../simpleapi/simpleapi
