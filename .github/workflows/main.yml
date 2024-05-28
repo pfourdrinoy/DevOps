@@ -24,6 +24,9 @@ jobs:
         run:
           mvn clean verify --file simple-api-student-main/simple-api-student-main/pom.xml
 
+      - name: Login to DockerHub
+        run: docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.TOKEN_DOCKERHUB }}
+
       - name: Build image and push backend
         uses: docker/build-push-action@v3
         with:
@@ -49,19 +52,4 @@ jobs:
           context: ./Http
           # Note: tags has to be all lower-case
           tags:  ${{secrets.DOCKERHUB_USERNAME}}/tp-devops-simple-api:latest
-          push: ${{ github.ref == 'refs/heads/main' }}
-
-      - name: Login to DockerHub
-        run: docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.TOKEN_DOCKERHUB }}
-
-
-      # - name: Login to Docker Hub
-      #   run: echo "${{ secrets.TOKEN_DOCKERHUB}}" | docker login --username pfourdrinoy --password-stdin
-
-      # - name: Build and push Docker image DB
-      #   run: docker build -t pfourdrinoy/mydatabase:1.0 . | docker push pfourdrinoy/mydatabase:1.0
-
-      # - name: Build and push Docker image API
-      #   run: docker build -t pfourdrinoy/myapi:1.0 . | docker push pfourdrinoy/myapi:1.0
-
-          
+          push: ${{ github.ref == 'refs/heads/main' }}      
