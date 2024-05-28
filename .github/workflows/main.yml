@@ -22,5 +22,5 @@ jobs:
 
       - name: Build and test with Maven
         run:
-          mvn clean verify --file DevOps/simpleapi/simpleapi
+          mvn clean verify --file simpleapi/simpleapi/pom.xml
           
