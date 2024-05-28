@@ -1,0 +1,46 @@
+version: '3.7'
+
+services:
+  API:
+    container_name: APIMain
+    image: apimain
+    environment:
+      DB_host: mypostgres
+      DB_port: 5432
+      DB_name: db 
+      DB_user: DB_user
+      DB_mdp: pwd
+    networks:
+      - app-network 
+    depends_on:
+      - database
+
+  database:
+    container_name: mypostgres
+    image: mon-postgres:14.1
+    environment:
+      POSTGRES_DB: db
+      POSTGRES_USER: DB_user
+      POSTGRES_PASSWORD: pwd
+    networks:
+        - app-network 
+    volumes:
+        - ./data:/var/lib/postgresql/data
+
+  server:
+    container_name: HTTP
+    image: http
+    environment:
+      BACKEND_hosts: API
+    ports:
+      - "80:80"
+    networks:
+      - app-network 
+    depends_on:
+      - API
+
+networks:
+    app-network:
+
+volumes:
+    data:

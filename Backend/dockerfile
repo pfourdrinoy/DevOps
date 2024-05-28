@@ -1,0 +1,8 @@
+FROM openjdk:22-jre-hotspot
+
+WORKDIR /app
+
+COPY Main.class /app
+
+CMD ["java", "Main"]
+
