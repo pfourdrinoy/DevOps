@@ -20,7 +20,8 @@ On procède à la création du network via cette commande:
 Il faudra alors lancer nos container dans ce network en rajoutant l'options --net:app-network
 Enfin, pour garantir la persistance de nos fichiers, il nous faut rajouter dans l'executable dockerfile la ligne suivante:
 
-```COPY ./data /docker-entrypoint-initdb.d
+```
+COPY ./data /docker-entrypoint-initdb.d
 ```
 
 Cette ligne permettra de garantir qu'à chaque création de container les tables et les données de base soient ingérées.
