@@ -49,5 +49,5 @@
 - name: Log in to Docker Hub
   docker_login:
     username: pfourdrinoy
-    password: dckr_pat_CBks56v6KCgzvrMNVXxtYlk0lfY
+    password: #Mon token dockerhub
     reauthorize: yes

@@ -117,3 +117,5 @@ ansible-playbook -i /mnt/c/Users/paulf/Documents/EPF/DevOps/ansible/inventories/
 Le but de ce TP était de configurer le système ansible, permetant de déployer par une simple commande une application sur plusieurs serveurs et ce en parallèle sans avoir ajouté d'application auparavant sur ce serveur.
 
 ---
+
+## PS: Pour push j'ai dû supprimer mon token DockerHub dans le main.yml de la configuration de docker via ansible, si vous en avez besoin, contactez moi.
