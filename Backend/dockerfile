@@ -1,8 +1,11 @@
+# Utilise l'image OpenJDK 22 avec HotSpot JRE
 FROM openjdk:22-jre-hotspot
 
+# Définit le répertoire de travail à /app
 WORKDIR /app
 
+# Copie le fichier Main.class dans le répertoire de travail
 COPY Main.class /app
 
+# Définit la commande à exécuter au démarrage du conteneur
 CMD ["java", "Main"]
-

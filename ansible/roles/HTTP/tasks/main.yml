@@ -1,0 +1,22 @@
+---
+# tasks file for roles/HTTP
+
+# Tire l'image HTTP
+- name: Pull the HTTP Image
+  docker_image:
+    name: pfourdrinoy/tp-devops-simple-http
+    tag: latest
+    source: pull
+
+# Exécute le conteneur HTTPD
+- name: Run HTTPD
+  docker_container:
+    state: started
+    name: HTTP
+    image: pfourdrinoy/tp-devops-simple-http
+    ports:
+      - "80:80"
+    networks:
+      - name: "app-network"
+    env:
+      BACKEND_host: APIMain

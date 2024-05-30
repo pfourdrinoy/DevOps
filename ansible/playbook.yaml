@@ -1,0 +1,15 @@
+# Exécute les tâches sur tous les hôtes sans collecter de faits, avec privilèges élevés
+- hosts: all
+  gather_facts: false
+  become: true
+
+# Configure Docker et autres composants, avec privilèges élevés
+- name: Setup Docker
+  hosts: all
+  become: yes
+  roles:
+    - docker   # Installe et configure Docker
+    - Network  # Configure le réseau
+    - BDD      # Configure la base de données
+    - HTTP     # Configure les services HTTP
+    - API      # Configure les services API

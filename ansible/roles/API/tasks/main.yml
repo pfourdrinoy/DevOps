@@ -1,0 +1,18 @@
+---
+# tasks file for roles/API
+
+# Tire l'image de l'API
+- name: Pull the API Image
+  docker_image:
+    name: pfourdrinoy/tp-devops-simple-api
+    tag: latest
+    source: pull
+
+# Exécute le conteneur de l'API
+- name: Run API
+  docker_container:
+    state: started
+    name: APIMain
+    image: pfourdrinoy/tp-devops-simple-api
+    networks:
+      - name: "app-network"

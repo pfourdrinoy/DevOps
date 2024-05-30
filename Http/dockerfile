@@ -1,5 +1,8 @@
+# Utilise l'image httpd version 2.4 avec Alpine Linux
 FROM httpd:2.4-alpine
 
+# Copie le fichier index.html dans le répertoire de base des documents HTTP
 COPY index.html /usr/local/apache2/htdocs/
 
+# Copie le fichier de configuration httpd.conf dans le répertoire de configuration d'Apache
 COPY httpd.conf /usr/local/apache2/conf/httpd.conf

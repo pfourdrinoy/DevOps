@@ -1,0 +1,18 @@
+---
+# tasks file for roles/BDD
+
+# Tire l'image de la base de données
+- name: Pull the BDD image
+  docker_image:
+    name: pfourdrinoy/tp-devops-simple-db
+    tag: latest
+    source: pull
+
+# Exécute le conteneur de la base de données
+- name: Run BDD
+  docker_container:
+    state: started
+    name: mypostgres
+    image: pfourdrinoy/tp-devops-simple-db
+    networks:
+      - name: "app-network"

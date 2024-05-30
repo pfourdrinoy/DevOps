@@ -1,58 +1,53 @@
-name: CI devops 2024
+name: CI devops 2024  # Nom du workflow
 
 on:
   push:
-    branches: [ "master" ]
+    branches: [ "master" ]  # Déclenche le workflow sur les pushs vers la branche master
   pull_request:
-    branches: [ "master" ]
+    branches: [ "master" ]  # Déclenche le workflow sur les pull requests vers la branche master
 
 jobs:
   test-backend:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-22.04  # Utilisation d'une machine virtuelle Ubuntu 22.04 pour exécuter les jobs
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2.5.0
+        uses: actions/checkout@v2.5.0  # Action pour récupérer le code depuis le dépôt
 
       - name: Set up JDK 17
         uses: actions/setup-java@v3
         with:
-          java-version: '17'
-          distribution: 'adopt'  # specify the distribution here
+          java-version: '17'  # Configuration de JDK 17
+          distribution: 'adopt'  # Distribution adoptée de JDK
 
       - name: Build and test with Maven
         run:
-          mvn clean verify --file simple-api-student-main/simple-api-student-main/pom.xml
+          mvn clean verify --file simple-api-student-main/simple-api-student-main/pom.xml  # Commande Maven pour nettoyer, construire et tester l'application
 
       - name: Login to DockerHub
-        run: docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.TOKEN_DOCKERHUB }}
+        run: docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.TOKEN_DOCKERHUB }}  # Connexion à DockerHub avec les identifiants secrets
 
       - name: Build image and push backend
         uses: docker/build-push-action@v3
         with:
-          # relative path to the place where source code with Dockerfile is located
-          context: ./simple-api-student-main/simple-api-student-main
-          # Note: tags has to be all lower-case
-          tags:  ${{secrets.DOCKERHUB_USERNAME}}/tp-devops-simple-api:latest
-          push: ${{ github.ref == 'refs/heads/master' }}
+          context: ./simple-api-student-main/simple-api-student-main  # Chemin relatif où se trouve le Dockerfile de l'API
+          tags: ${{secrets.DOCKERHUB_USERNAME}}/tp-devops-simple-api:latest  # Tag de l'image Docker pour l'API
+          push: ${{ github.ref == 'refs/heads/master' }}  # Pousse l'image uniquement sur la branche master
 
       - name: Build image and push database
         uses: docker/build-push-action@v3
         with:
-          # relative path to the place where source code with Dockerfile is located
-          context: ./Bdd
-          # Note: tags has to be all lower-case
-          tags:  ${{secrets.DOCKERHUB_USERNAME}}/tp-devops-simple-db:latest
-          push: ${{ github.ref == 'refs/heads/master' }}
+          context: ./Bdd  # Chemin relatif où se trouve le Dockerfile de la base de données
+          tags: ${{secrets.DOCKERHUB_USERNAME}}/tp-devops-simple-db:latest  # Tag de l'image Docker pour la base de données
+          push: ${{ github.ref == 'refs/heads/master' }}  # Pousse l'image uniquement sur la branche master
 
       - name: Build image and push httpd
         uses: docker/build-push-action@v3
         with:
-          # relative path to the place where source code with Dockerfile is located
-          context: ./Http
-          # Note: tags has to be all lower-case
-          tags:  ${{secrets.DOCKERHUB_USERNAME}}/tp-devops-simple-http:latest
-          push: ${{ github.ref == 'refs/heads/master' }}      
+          context: ./Http  # Chemin relatif où se trouve le Dockerfile pour HTTPD
+          tags: ${{secrets.DOCKERHUB_USERNAME}}/tp-devops-simple-http:latest  # Tag de l'image Docker pour HTTPD
+          push: ${{ github.ref == 'refs/heads/master' }}  # Pousse l'image uniquement sur la branche master
       
       - name: Sonar execution
-        run: mvn -B verify sonar:sonar -Dsonar.projectKey=pfourdrinoy_DevOps -Dsonar.organization=pfourdrinoy -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=${{ secrets.TOKEN_SONAR }}  --file ./simple-api-student-main/simple-api-student-main/pom.xml
+        run: mvn -B verify sonar:sonar -Dsonar.projectKey=pfourdrinoy_DevOps -Dsonar.organization=pfourdrinoy -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=${{ secrets.TOKEN_SONAR }} --file ./simple-api-student-main/simple-api-student-main/pom.xml
+        # Commande pour exécuter SonarCloud après la construction et les tests

@@ -1,0 +1,53 @@
+---
+# Install Docker
+
+# Installe device-mapper-persistent-data
+- name: Install device-mapper-persistent-data
+  yum:
+    name: device-mapper-persistent-data
+    state: latest
+
+# Installe lvm2
+- name: Install lvm2
+  yum:
+    name: lvm2
+    state: latest
+
+# Ajoute le dépôt Docker
+- name: add repo docker
+  command:
+    cmd: sudo yum-config-manager --add-repo=https://download.docker.com/linux/centos/docker-ce.repo
+
+# Installe Docker
+- name: Install Docker
+  yum:
+    name: docker-ce
+    state: present
+
+# Installe Python 3
+- name: Install python3
+  yum:
+    name: python3
+    state: present
+
+# Installe le module Docker pour Python 3
+- name: Install docker with Python 3
+  pip:
+    name: docker
+    executable: pip3
+  vars:
+    ansible_python_interpreter: /usr/bin/python3
+
+# Assure que Docker est en cours d'exécution
+- name: Make sure Docker is running
+  service: 
+    name: docker 
+    state: started
+  tags: docker
+
+# Connexion à Docker Hub
+- name: Log in to Docker Hub
+  docker_login:
+    username: pfourdrinoy
+    password: dckr_pat_CBks56v6KCgzvrMNVXxtYlk0lfY
+    reauthorize: yes
